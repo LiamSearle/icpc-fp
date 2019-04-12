@@ -53,7 +53,8 @@ let commaSprinkler input =
     match (List.exists checkLetter inputList) with
     |false -> None
     |_ -> Some ()
-  ()
+  ()//delete this unit
+  
 
   
   //---------------End Checks to make sure the input string is valid-------------
