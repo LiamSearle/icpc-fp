@@ -38,9 +38,6 @@ let getListLastChars input =
 
 //let checkLegalChars input =
 //  match List.exists (fun x -> (List.contains x listOfAccepted) input
-  
-
-
 
 let rules input = 
   match input with
