@@ -1,4 +1,15 @@
-﻿module ICPC
+﻿(*
+Sprinkler ToDo:
+
+find words that are preceded by a comma (List.find)
+go through the list and add all the commas unless its the first word
+
+do the same thing as above but for words with commas after them unless its the last word in the sentance
+
+apply the rules over and over untill there are no more possible commas to add.
+*)
+
+module ICPC
 open System
 
 
