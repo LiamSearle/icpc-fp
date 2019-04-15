@@ -31,15 +31,20 @@ let getListLastChars input =
 
 
 let rules input = 
-  let words = listOfCharLists input
-  let firstElem::_ = words
-  let wordsList = listOfChars input
-  let _::lastChar = wordsList
-  match firstElem.Length > 2 with
-  |true -> match lastChar with
-            |['.'] -> Some (words) //is ths really input?? it works? maybe...
-            |_ -> None
-  |_ -> None
+  match input with
+  |"" -> None
+  |_ ->
+    let words = listOfCharLists input
+    let firstElem = words.Head
+    let wordsList = listOfChars input
+    let lastChar = wordsList.Tail
+    match input with 
+    |"" -> None
+    |_ -> match firstElem.Length > 2 with
+                |true -> match lastChar with
+                          |['.'] -> Some () //is ths really input?? it works? maybe...
+                          |_ -> None
+                |_ -> None
 
 //let checkInbetweenWords input = 
 //  match input with
