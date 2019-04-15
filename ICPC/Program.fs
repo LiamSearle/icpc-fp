@@ -1,18 +1,5 @@
-﻿(*
-Sprinkler ToDo:
-
-find words that are preceded by a comma (List.find)
-go through the list and add all the commas unless its the first word
-
-do the same thing as above but for words with commas after them unless its the last word in the sentance
-
-apply the rules over and over untill there are no more possible commas to add.
-*)
-
-
-module ICPC
+﻿module ICPC
 open System
-
 
 
 let checkLetter input = //takes in a char and checks if it is a valid char
@@ -25,7 +12,6 @@ let checkLetter input = //takes in a char and checks if it is a valid char
 
 let listOfCharLists (input: string) = 
   let wordList = input.Split [|' '|]
-  //let words = wordList |> Seq.toList 
   let words = Seq.toList wordList
   words
 
@@ -36,22 +22,19 @@ let listOfChars (input: string) =
 let getListLastChars input = 
    match input with [] -> None | _::t -> Some t
 
-//let checkLegalChars input =
-//  match List.exists (fun x -> (List.contains x listOfAccepted) input
-
-let rules input = 
+let rules input =   //Deals with error cases
   match input with
-  |"" -> None
+  |"" -> None //cant be empty
   |_ ->
     let words = listOfCharLists input
     let firstElem = words.Head
     let wordsList = listOfChars input
     let lastChar = wordsList.Tail
     match input with 
-    |"" -> None
-    |_ -> match firstElem.Length > 2 with
+    |"" -> None 
+    |_ -> match firstElem.Length > 2 with //must be a word, most words are more than 2 chars right?
                 |true -> match lastChar with
-                          |['.'] -> Some () //is ths really input?? it works? maybe...
+                          |['.'] -> Some () //sentence must end with a fullstop
                           |_ -> None
                 |_ -> None
 
@@ -62,28 +45,6 @@ let rules input =
 
 let commaSprinkler input =
   rules input
-  //match input with
-  //| [] -> None
-  //| word :: comma -> Some word
-
-(*
-  let inputList = Seq.toList input //convert the input string to a list
-  //---------------Checks to make sure the input string is valid-----------------
-  let checkLength input = //kick out the function if the length is wrong
-    match inputList.Length>1 with
-    | false -> None
-    | _-> Some ()
-
-  let isLegalInput input = 
-    match (List.exists checkLetter inputList) with
-    |false -> None
-    |_ -> Some ()
-  ()//delete this unit
-*)
-
-  
-  //---------------End Checks to make sure the input string is valid-------------
-    //failwith "Not implemented"
 
 let rivers input =
     failwith "Not implemented"
