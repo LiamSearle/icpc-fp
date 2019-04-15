@@ -4,21 +4,21 @@ open NUnit.Framework
 open FsUnit
 
 [<Test>]
-let ``Comma sprinkler, input 1`` () =
+let ``Comma sprinkler, input 1`` () = //doesn't pass
     commaSprinkler "please sit spot. sit spot, sit. spot here now here."
     |> should equal (Some "please, sit spot. sit spot, sit. spot, here now, here.")
 
 [<Test>]
-let ``Comma sprinkler, input 2`` () =
+let ``Comma sprinkler, input 2`` () = //doesn't pass
     commaSprinkler "one, two. one tree. four tree. four four. five four. six five."
     |> should equal (Some "one, two. one, tree. four, tree. four, four. five, four. six five.")
 
 [<Test>]
-let ``Comma sprinkler, input 3`` () =
+let ``Comma sprinkler, input 3`` () = //doesn't pass
     commaSprinkler "test." |> should equal (Some "test.")
 
 [<Test>]
-let ``Comma sprinkler, error case 1`` () =
+let ``Comma sprinkler, error case 1`` () = //doesn't pass
     commaSprinkler "" |> should equal None
     commaSprinkler "o" |> should equal None
 
