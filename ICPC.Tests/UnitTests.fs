@@ -18,7 +18,7 @@ let ``Comma sprinkler, input 3`` () = //doesn't pass
     commaSprinkler "test." |> should equal (Some "test.")
 
 [<Test>]
-let ``Comma sprinkler, error case 1`` () = //doesn't pass
+let ``Comma sprinkler, error case 1`` () =
     commaSprinkler "" |> should equal None
     commaSprinkler "o" |> should equal None
 
