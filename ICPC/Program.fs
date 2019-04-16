@@ -189,7 +189,14 @@ let commaSprinkler input =
 
 
 let rivers input =
-    failwith "Not implemented"
+    //convert to string[] and split by whitespace
+    let inputtmp = input.ToString().Split(' ')
+    let listWds= input |> List.ofArray
+    let getEnd = input.Length // -1?
+
+
+    //check length of words conforms to requirements
+    let rec checkLength 
 
 [<EntryPoint>]
 let main argv =
