@@ -1,12 +1,12 @@
 ﻿(*
 Sprinkler ToDo:
 
-find words that are preceded by a comma (List.find)
-go through the list and add all the commas unless its the first word
+- check if the first word in words is found in cleanLeft or clean Right
+- go through words, adding commas to either the front or back of the word
+- once you get to the end of the words, update cleanLeft an cleanRight to hold any new words that now have commas and remove that word from cleanLeft or cleanRight as it has already been delt with.
+- move on to the next word in words and check if it is in cleanLeft or cleanRight.
+- when cleanLeft and cleanRight are both empty, then the string is sprinkled.
 
-do the same thing as above but for words with commas after them unless its the last word in the sentance
-
-apply the rules over and over untill there are no more possible commas to add.
 *)
 
 module ICPC
