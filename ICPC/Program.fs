@@ -19,14 +19,16 @@ open System
   match input with 
   //|'a' |'b' |'c' |'d' |'e' |'f' |'g' |'h' |'i' |'j' |'k' |'l' |'m' |'n' |'o' |'p' |'q' |'r' |'s' |'t' |'u' |'v' |'w' |'x' |'y' |'z'|','|' '|'.' -> true
   |listOfAccepted -> true
-  |_ -> false)
-  *)
-let listOfCharLists (input: string) = 
+  |_ -> false
+*)
+//                                      e.g. input = "One, two, three."
+let listOfCharLists (input: string) = //words = [ ['O';'n';'e';','];  ['t';'w';'o';','];  ['t';'h';'r';'e';'e';'.'] ]
   let wordList = input.Split [|' '|]
   let words = Seq.toList wordList
   words
 
-let listOfChars (input: string) = 
+//                                   e.g. input = "One, two, three."
+let listOfStrings (input: string) =  //wordList = ["One,"; "two,"; "three."]
   let wordList = Seq.toList input
   wordList
 
@@ -35,21 +37,39 @@ let getListLastChars input =
    |[] -> None 
    |_::t -> Some t
 
-let rules input =   //Deals with error cases
+//shaker: Deals with input cases
+// input = "test." |> Some "test." 
+let shaker input = 
+  let words = listOfCharLists input
+  //let noComma = Char. (fun c -> Char.is
+  //match noComma with
+  //match List.tryFind [','] words with
+  //|None -> Some (input)
+  //|_ -> Some (input)
+  let elementToFind = "%c" ','
+  let isInList elementToFind words = 
+    List.fold(fun acc x -> acc || x = elementToFind) false words
+    
+
+//rules: Deals with error cases
+let rules input =   
   match input with
   |"" -> None //cant be empty
   |_ ->
     let words = listOfCharLists input
     let firstElem = words.Head
-    let wordsList = listOfChars input
+    let wordsList = listOfStrings input
     let lastChar = wordsList.Tail
     match input with 
     |"" -> None 
     |_ -> match firstElem.Length > 2 with //must be a word, most words are more than 2 chars right?
                 |true -> match lastChar with
-                          |['.'] -> Some () //sentence must end with a fullstop
+                          |['.'] -> Some (shaker input) //sentence must end with a fullstop
                           |_ -> None
                 |_ -> None
+
+
+  
 
 //let checkInbetweenWords input = 
 //  match input with
