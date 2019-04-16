@@ -42,9 +42,13 @@ let shaker input =
   let words = listOfCharLists input
   //let noComma = Char. (fun c -> Char.is
   //match noComma with
-  match List.tryFind [','] words with
-  |None -> Some (input)
-  |_ -> Some (input)
+  //match List.tryFind [','] words with
+  //|None -> Some (input)
+  //|_ -> Some (input)
+  let elementToFind = "%c" ','
+  let isInList elementToFind words = 
+    List.fold(fun acc x -> acc || x = elementToFind) false words
+    
 
 //rules: Deals with error cases
 let rules input =   
