@@ -13,14 +13,14 @@ module ICPC
 open System
 
 
-let checkLetter input = //takes in a char and checks if it is a valid char
-  let listOfAccepted = ['A'..'Z']::['a'..'z']::[','::' '::['.']]
+(*let checkLetter input = //takes in a char and checks if it is a valid char
+  //let listOfAccepted = ['A'..'Z']::['a'..'z']::[','::' '::['.']]
   //printfn "%A" input
   match input with 
   //|'a' |'b' |'c' |'d' |'e' |'f' |'g' |'h' |'i' |'j' |'k' |'l' |'m' |'n' |'o' |'p' |'q' |'r' |'s' |'t' |'u' |'v' |'w' |'x' |'y' |'z'|','|' '|'.' -> true
   |listOfAccepted -> true
-  |_ -> false
-
+  |_ -> false)
+  *)
 let listOfCharLists (input: string) = 
   let wordList = input.Split [|' '|]
   let words = Seq.toList wordList
@@ -31,7 +31,9 @@ let listOfChars (input: string) =
   wordList
 
 let getListLastChars input = 
-   match input with [] -> None | _::t -> Some t
+   match input with 
+   |[] -> None 
+   |_::t -> Some t
 
 let rules input =   //Deals with error cases
   match input with
@@ -56,6 +58,8 @@ let rules input =   //Deals with error cases
 
 let commaSprinkler input =
   rules input
+
+
 
 let rivers input =
     failwith "Not implemented"
