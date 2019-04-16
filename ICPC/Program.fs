@@ -74,31 +74,55 @@ let isUpper (input : char) = input = System.Char.ToUpper input
 let shaker input = 
   let words = listOfStrings input
 
-  let rec shake (input1 : String list) = 
-    match input1 with
+  let rec shakeLeft (afterWord : String list) = 
+    match afterWord with
     |[] -> []
     |head::tail -> match head.[head.Length-1] with
-                   |',' -> [head] @ shake tail
-                   |_ -> shake tail
-  shake words
-  //let wordyBoy = shake words
+                   |',' -> [head] @ shakeLeft tail 
+                   |_ -> shakeLeft tail
 
-  //Console.WriteLine(sprintf "%A" wordyBoy)
-  //Console.WriteLine(sprintf "asdasdasd")
-  //let listyBoi = shake
-  //let noComma = Char. (fun c -> Char.is
-  //match noComma with
-  //match List.tryFind [','] words with
-  //|None -> Some (input)
-  //|_ -> Some (input)
-  
+  let rec shakeRight (beforeWord : String list) = 
+    match beforeWord with
+    |[] -> []
+    |head::tail -> match head.[head.Length-1] with
+                   |',' -> [tail.Head] @ shakeRight tail 
+                   |_ -> shakeRight tail
 
-  //let f = (input |> List.filter (fun x -> (x.Tail = ',')))
+  //Comma was before the word so add comma to before other occurances
+  let leftWords = shakeRight words
+  let cleanLeft = leftWords |> List.map (fun c -> c.[0..c.Length-2]) 
 
-  //let addToList input = 
-  //let toReturn = (input |> List.filter (fun c -> c.[c.Length] = ','))
-  //toReturn
+  //Comma was after the word so add comma to after other occurances
+  let rightWords = shakeLeft words
+  let cleanRight = rightWords |> List.map (fun c -> c.[0..c.Length-2]) 
 
+  let cleanWords = words |> List.filter (fun c -> c <> ".") 
+
+  let rec funct cleanLeft cleanRight words = 
+    match cleanLeft with 
+    | words -> 
+    |
+    match cleanRight with 
+    |//base case
+    |
+
+
+(*
+each time a word from cleanLeft||cleanRight, matches words(input): check rules, give comma.
+check left & right
+repeat. untill no new occurances in cleanLeft||cleanRight - no new clean words, when list stops updating, must be no more?
+*)
+
+//let commaWords = rightWords @ leftWords
+//let cleanWords = commaWords |> List.map (fun c -> c.[0..c.Length-2]) 
+//print out------------------------------------------------------------
+  Console.WriteLine(sprintf "words: \n%A" words)
+  //Console.WriteLine(sprintf "foundWords: \n%A" commaWords)
+  Console.WriteLine(sprintf "cleanLeft: \n%A" cleanLeft)
+  Console.WriteLine(sprintf "cleanRight: \n%A" cleanRight)
+  //Console.WriteLine(sprintf "shakeWords: \n%A" shakeWords)
+//print out------------------------------------------------------------
+ 
 
   
   
@@ -123,7 +147,16 @@ let rules input =
     let charList = listOfChars input
     let cleanList = (List.filter (fun c -> c <> ' ' && c <> '.' && c <> ',') charList)
     let lastChar = charList.[charList.Length-1]
-    match input.Contains("  ") || input.Contains(" .") with
+    
+    //Console.WriteLine(sprintf "charList: \n%A" charList)
+    match ( cleanList |> List.exists (fun c -> c = System.Char.ToUpper c)) with //cant be any upper case letters
+    |false ->    
+      match firstElem.Length >= 2 with //must be a word, most words are more than 2 chars right?
+      |true -> 
+        match lastChar with
+        |'.' -> Some (shaker input) //sentence must end with a fullstop
+        |_ -> None
+      |_ -> None
     |true -> None
     |false ->
       match (checkCommaSuffix charList && checkSpaceSuffix charList && checkStopSuffix charList) with
@@ -154,13 +187,14 @@ let commaSprinkler input =
   //let x = 15
   //x
 
-
 let rivers input =
     failwith "Not implemented"
 
 [<EntryPoint>]
 let main argv =
     printfn "Hello World from F#!"
-    
-    commaSprinkler "please sit spot. sit spot, sit. spot here now here." //|> printfn "%A"
+   
+    commaSprinkler "please sit spot. sit spot, sit. spot here now here." |> printfn "%A"
+    //        Some("please, sit spot. sit spot, sit. spot, here now, here.")
+
     0 // return an integer exit code 
