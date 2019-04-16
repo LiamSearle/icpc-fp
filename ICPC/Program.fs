@@ -14,29 +14,24 @@ open System
 
 //                                      e.g. input = "One, two, three."
 let listOfCharLists (input: string) = //words = [ ['O';'n';'e';','];  ['t';'w';'o';','];  ['t';'h';'r';'e';'e';'.'] ]
-  let wordList = input.Split [|' '|]
-  let words = Seq.toList wordList
+  let wordList = Seq.toList(input.Split [|' '|])
+  let words = List.map (fun c -> Seq.toList c) wordList//Seq.toList wordList
   words
 
-//                                   e.g. input = "One, two, three."
-let listOfStrings (input: string) =  //wordList = ["One,"; "two,"; "three."]
+
+let listOfChars (input: string) = 
   let wordList = Seq.toList input
   wordList
-
-let listOfStrings2 (input : string) = 
+//                                   e.g. input = "One, two, three."
+let listOfStrings (input : string) =  //wordList = ["One,"; "two,"; "three."]
   let wordList = Seq.toList (input.Split [|' '|])
   wordList
-
-let commaAtEnd input = 
-    match input with
-    |_::[','] -> true
-    |_ -> false
 
 
 //shaker: Deals with input cases
 // input = "test." |> Some "test." 
 let shaker input = 
-  let words = listOfStrings2 input
+  let words = listOfStrings input
 
   let rec shake (input1 : String list) = 
     match input1 with
@@ -44,10 +39,11 @@ let shaker input =
     |head::tail -> match head.[head.Length-1] with
                    |',' -> [head] @ shake tail
                    |_ -> shake tail
+  shake words
+  //let wordyBoy = shake words
 
-  let wordyBoy = shake words
-
-  Console.WriteLine(sprintf "%A" wordyBoy)  
+  //Console.WriteLine(sprintf "%A" wordyBoy)
+  //Console.WriteLine(sprintf "asdasdasd")
   //let listyBoi = shake
   //let noComma = Char. (fun c -> Char.is
   //match noComma with
@@ -83,15 +79,18 @@ let rules input =
     let words = listOfCharLists input
     let firstElem = words.Head
     let wordsList = listOfStrings input
-    let lastChar = wordsList.Tail
+    let charList = listOfChars input
+    let lastChar = charList.[charList.Length-1]
+    //Console.WriteLine(sprintf "%A" lastChar)
     match input with 
     |"" -> None 
     |_ -> match firstElem.Length > 2 with //must be a word, most words are more than 2 chars right?
                 |true -> match lastChar with
-                          |['.'] -> Some (shaker input) //sentence must end with a fullstop
+                          |'.' -> Some (shaker input) //sentence must end with a fullstop
                           |_ -> None
                 |_ -> None
 
+  
 
 
   
@@ -103,7 +102,8 @@ let rules input =
 
 let commaSprinkler input =
   rules input
-  
+  //let x = 15
+  //x
 
 
 let rivers input =
@@ -112,5 +112,6 @@ let rivers input =
 [<EntryPoint>]
 let main argv =
     printfn "Hello World from F#!"
-    //commaSprinkler "please sit spot. sit spot, sit. spot here now here."
+    
+    commaSprinkler "please sit spot. sit spot, sit. spot here, now here."
     0 // return an integer exit code 
