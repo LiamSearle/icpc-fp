@@ -27,6 +27,16 @@ let listOfStrings (input : string) =  //wordList = ["One,"; "two,"; "three."]
   let wordList = Seq.toList (input.Split [|' '|])
   wordList
 
+let isUpper (str : string) =
+    let rec strIter isUpper arr =
+        match arr with
+        | [] -> isUpper
+        | _ -> 
+            match Char.IsLower(arr.Head) with
+            | true -> strIter false []
+            | false -> strIter true arr.Tail
+
+    strIter true (Array.toList <| str.ToCharArray())
 
 //shaker: Deals with input cases
 // input = "test." |> Some "test." 
@@ -78,18 +88,19 @@ let rules input =
   |_ ->
     let words = listOfCharLists input
     let firstElem = words.Head
-    let wordsList = listOfStrings input
     let charList = listOfChars input
     let lastChar = charList.[charList.Length-1]
-    //Console.WriteLine(sprintf "%A" lastChar)
-    match input with 
-    |"" -> None 
-    |_ -> match firstElem.Length > 2 with //must be a word, most words are more than 2 chars right?
-                |true -> match lastChar with
-                          |'.' -> Some (shaker input) //sentence must end with a fullstop
-                          |_ -> None
-                |_ -> None
-
+    //Console.WriteLine(sprintf "%A" charList)
+    match not (charList |> List.exists (fun c -> isUpper ("" + (string c)))) with
+    |true ->    
+            match input with 
+            |"" -> None 
+            |_ -> match firstElem.Length > 2 with //must be a word, most words are more than 2 chars right?
+                  |true -> match lastChar with
+                           |'.' -> Some (shaker input) //sentence must end with a fullstop
+                           |_ -> None
+                  |_ -> None
+    |_ -> None
   
 
 
