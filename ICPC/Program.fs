@@ -27,10 +27,7 @@ let listOfStrings (input : string) =  //wordList = ["One,"; "two,"; "three."]
   let wordList = Seq.toList (input.Split [|' '|])
   wordList
 
-let isUpper (input : char) =
-  match input with
-  |'A' | 'B'| 'C'| 'D'| 'E'| 'F'| 'G'| 'H'| 'I'| 'J'| 'K'| 'L'| 'M'| 'N'| 'O'| 'P'| 'Q'| 'R'| 'S'| 'T'| 'U'| 'V'| 'w'| 'X'| 'Y'| 'Z' -> true
-  |_ -> false
+let isUpper (input : char) = input = System.Char.ToUpper input
 
 //shaker: Deals with input cases
 // input = "test." |> Some "test." 
@@ -76,23 +73,25 @@ let shaker input =
     
 
 //rules: Deals with error cases
-let rules input =   
+let rules input = 
   match input with
   |"" -> None //cant be empty
   |_ ->
     let words = listOfCharLists input
     let firstElem = words.Head
     let charList = listOfChars input
+    let cleanList = List.filter (fun c -> c <> ' ' && c <> '.' && c <> ',') charList
     let lastChar = charList.[charList.Length-1]
     Console.WriteLine(sprintf "%A" charList)
-    match not (charList |> List.exists (isUpper)) with
-    |true ->    
-            match firstElem.Length > 2 with //must be a word, most words are more than 2 chars right?
-                  |true -> match lastChar with
-                           |'.' -> Some (123) //sentence must end with a fullstop
-                           |_ -> None
-                  |_ -> None
-    |_ -> None
+    match ( cleanList |> List.exists (fun c -> c = System.Char.ToUpper c)) with //cant be any upper case letters
+    |false ->    
+      match firstElem.Length >= 2 with //must be a word, most words are more than 2 chars right?
+      |true -> 
+        match lastChar with
+        |'.' -> Some ("Hello") //sentence must end with a fullstop
+        |_ -> None
+      |_ -> None
+    |true -> None
   
 
 
@@ -116,5 +115,5 @@ let rivers input =
 let main argv =
     printfn "Hello World from F#!"
     
-    //commaSprinkler "please sit spot. sit spot, sit. spot here, now here."
+    commaSprinkler "please sit spot. sit spot, sit. spot here now here." |> printfn "%A"
     0 // return an integer exit code 
