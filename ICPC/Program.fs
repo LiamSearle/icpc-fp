@@ -162,5 +162,5 @@ let rivers input =
 let main argv =
     printfn "Hello World from F#!"
     
-    commaSprinkler "please sit spot. sit spot, sit. spot here now here." //|> printfn "%A"
+    //commaSprinkler "please sit spot. sit spot, sit. spot here now here." //|> printfn "%A"
     0 // return an integer exit code 
