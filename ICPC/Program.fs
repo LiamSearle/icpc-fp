@@ -196,7 +196,18 @@ let rivers input =
 
 
     //check length of words conforms to requirements
-    let rec checkLength 
+    let rec checkLength lstwds =
+        match lstwds with
+        | [] -> None
+        | head :: tail ->
+        
+
+    listWds |> List.iter (fun x -> 
+    match x.length with
+    | x when x > 80  -> None
+    | _ -> Some
+
+    )
 
 [<EntryPoint>]
 let main argv =
