@@ -12,15 +12,6 @@ apply the rules over and over untill there are no more possible commas to add.
 module ICPC
 open System
 
-
-(*let checkLetter input = //takes in a char and checks if it is a valid char
-  //let listOfAccepted = ['A'..'Z']::['a'..'z']::[','::' '::['.']]
-  //printfn "%A" input
-  match input with 
-  //|'a' |'b' |'c' |'d' |'e' |'f' |'g' |'h' |'i' |'j' |'k' |'l' |'m' |'n' |'o' |'p' |'q' |'r' |'s' |'t' |'u' |'v' |'w' |'x' |'y' |'z'|','|' '|'.' -> true
-  |listOfAccepted -> true
-  |_ -> false
-*)
 //                                      e.g. input = "One, two, three."
 let listOfCharLists (input: string) = //words = [ ['O';'n';'e';','];  ['t';'w';'o';','];  ['t';'h';'r';'e';'e';'.'] ]
   let wordList = input.Split [|' '|]
@@ -32,23 +23,56 @@ let listOfStrings (input: string) =  //wordList = ["One,"; "two,"; "three."]
   let wordList = Seq.toList input
   wordList
 
-let getListLastChars input = 
-   match input with 
-   |[] -> None 
-   |_::t -> Some t
+let listOfStrings2 (input : string) = 
+  let wordList = Seq.toList (input.Split [|' '|])
+  wordList
+
+let commaAtEnd input = 
+    match input with
+    |_::[','] -> true
+    |_ -> false
+
 
 //shaker: Deals with input cases
 // input = "test." |> Some "test." 
 let shaker input = 
-  let words = listOfCharLists input
+  let words = listOfStrings2 input
+
+  let rec shake (input1 : String list) = 
+    match input1 with
+    |[] -> []
+    |head::tail -> match head.[head.Length-1] with
+                   |',' -> [head] @ shake tail
+                   |_ -> shake tail
+
+  let wordyBoy = shake words
+
+  Console.WriteLine(sprintf "%A" wordyBoy)  
+  //let listyBoi = shake
   //let noComma = Char. (fun c -> Char.is
   //match noComma with
   //match List.tryFind [','] words with
   //|None -> Some (input)
   //|_ -> Some (input)
-  let elementToFind = "%c" ','
-  let isInList elementToFind words = 
-    List.fold(fun acc x -> acc || x = elementToFind) false words
+  
+
+  //let f = (input |> List.filter (fun x -> (x.Tail = ',')))
+
+  //let addToList input = 
+  //let toReturn = (input |> List.filter (fun c -> c.[c.Length] = ','))
+  //toReturn
+
+
+  //let elementToFind = ','
+  
+  (*
+  match isInList elemToFindWords with
+  |false -> Some input
+  |true -> 
+          let rec sprinkle input =
+            match input with *)
+
+    
     
 
 //rules: Deals with error cases
@@ -69,6 +93,7 @@ let rules input =
                 |_ -> None
 
 
+
   
 
 //let checkInbetweenWords input = 
@@ -78,7 +103,7 @@ let rules input =
 
 let commaSprinkler input =
   rules input
-
+  
 
 
 let rivers input =
@@ -87,4 +112,5 @@ let rivers input =
 [<EntryPoint>]
 let main argv =
     printfn "Hello World from F#!"
+    //commaSprinkler "please sit spot. sit spot, sit. spot here now here."
     0 // return an integer exit code 
