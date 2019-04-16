@@ -27,16 +27,10 @@ let listOfStrings (input : string) =  //wordList = ["One,"; "two,"; "three."]
   let wordList = Seq.toList (input.Split [|' '|])
   wordList
 
-let isUpper (str : string) =
-    let rec strIter isUpper arr =
-        match arr with
-        | [] -> isUpper
-        | _ -> 
-            match Char.IsLower(arr.Head) with
-            | true -> strIter false []
-            | false -> strIter true arr.Tail
-
-    strIter true (Array.toList <| str.ToCharArray())
+let isUpper (input : char) =
+  match input with
+  |'A' | 'B'| 'C'| 'D'| 'E'| 'F'| 'G'| 'H'| 'I'| 'J'| 'K'| 'L'| 'M'| 'N'| 'O'| 'P'| 'Q'| 'R'| 'S'| 'T'| 'U'| 'V'| 'w'| 'X'| 'Y'| 'Z' -> true
+  |_ -> false
 
 //shaker: Deals with input cases
 // input = "test." |> Some "test." 
@@ -50,9 +44,9 @@ let shaker input =
                    |',' -> [head] @ shake tail
                    |_ -> shake tail
   shake words
-  //let wordyBoy = shake words
+  let wordyBoy = shake words
 
-  //Console.WriteLine(sprintf "%A" wordyBoy)
+  Console.WriteLine(sprintf "%A" wordyBoy)
   //Console.WriteLine(sprintf "asdasdasd")
   //let listyBoi = shake
   //let noComma = Char. (fun c -> Char.is
@@ -90,14 +84,12 @@ let rules input =
     let firstElem = words.Head
     let charList = listOfChars input
     let lastChar = charList.[charList.Length-1]
-    //Console.WriteLine(sprintf "%A" charList)
-    match not (charList |> List.exists (fun c -> isUpper ("" + (string c)))) with
+    Console.WriteLine(sprintf "%A" charList)
+    match not (charList |> List.exists (isUpper)) with
     |true ->    
-            match input with 
-            |"" -> None 
-            |_ -> match firstElem.Length > 2 with //must be a word, most words are more than 2 chars right?
+            match firstElem.Length > 2 with //must be a word, most words are more than 2 chars right?
                   |true -> match lastChar with
-                           |'.' -> Some (shaker input) //sentence must end with a fullstop
+                           |'.' -> Some (123) //sentence must end with a fullstop
                            |_ -> None
                   |_ -> None
     |_ -> None
@@ -124,5 +116,5 @@ let rivers input =
 let main argv =
     printfn "Hello World from F#!"
     
-    commaSprinkler "please sit spot. sit spot, sit. spot here, now here."
+    //commaSprinkler "please sit spot. sit spot, sit. spot here, now here."
     0 // return an integer exit code 
