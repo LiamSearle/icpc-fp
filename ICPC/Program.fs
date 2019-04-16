@@ -82,6 +82,7 @@ let rules input =
     let charList = listOfChars input
     let cleanList = List.filter (fun c -> c <> ' ' && c <> '.' && c <> ',') charList
     let lastChar = charList.[charList.Length-1]
+    
     Console.WriteLine(sprintf "%A" charList)
     match ( cleanList |> List.exists (fun c -> c = System.Char.ToUpper c)) with //cant be any upper case letters
     |false ->    
