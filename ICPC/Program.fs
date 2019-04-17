@@ -1,15 +1,4 @@
-﻿(*
-Sprinkler ToDo:
-
-- check if the first word in words is found in cleanLeft or clean Right
-- go through words, adding commas to either the front or back of the word
-- once you get to the end of the words, update cleanLeft an cleanRight to hold any new words that now have commas and remove that word from cleanLeft or cleanRight as it has already been delt with.
-- move on to the next word in words and check if it is in cleanLeft or cleanRight.
-- when cleanLeft and cleanRight are both empty, then the string is sprinkled.
-
-*)
-
-module ICPC
+﻿module ICPC
 open System
 
 //                                      e.g. input = "One, two, three."
@@ -48,112 +37,41 @@ let rec checkStopSuffix input =
                                    |_ -> false
                      |_-> checkStopSuffix tail
 
-(*
-let rec checkStopPrefix input = 
-  match List.rev input with
-  |[] -> true
-  |head::tail -> match head with
-                 |'.' -> match tail.Head with 
-                               |' ' -> false
-                               |_ -> (checkStopPrefix tail)
-                 |_-> checkStopPrefix tail
-*)
+
 
 let listOfChars (input: string) = 
   let wordList = Seq.toList input
   wordList
 //                                   e.g. input = "One, two, three."
+
+let isUpper (input : char) = input = System.Char.ToUpper input
+
+let putCommas xs (wordIn : string) = 
+  let word = wordIn.[0..wordIn.Length-2]
+  xs |> List.choose (fun elem ->
+          match elem = (word + ",") with
+          |true -> Some (word + ",")
+          |_->   
+           match elem = word with
+           |true -> Some (word + ",")
+           |false -> Some word)
+
 let listOfStrings (input : string) =  //wordList = ["One,"; "two,"; "three."]
   let wordList = Seq.toList (input.Split [|' '|])
   wordList
 
-let isUpper (input : char) = input = System.Char.ToUpper input
+let functR listyBoy (accyBoy) =
+  let rec loop (xs : string list) (acc : string list) =
+    match acc with
+    |[] -> xs
+    |_ ->
+        let x = acc.Head
+        match  x |> Seq.last  = ',' with
+        |true -> loop (putCommas xs acc.Head) acc.Tail
+        |false -> loop xs acc.Tail
+  loop listyBoy accyBoy
 
-//shaker: Deals with input cases
-// input = "test." |> Some "test." 
-let shaker input = 
-  let words = listOfStrings input
-
-  let rec shakeLeft (afterWord : String list) = 
-    match afterWord with
-    |[] -> []
-    |head::tail -> match head.[head.Length-1] with
-                   |',' -> [head] @ shakeLeft tail 
-                   |_ -> shakeLeft tail
-
-  let rec shakeRight (beforeWord : String list) = 
-    match beforeWord with
-    |[] -> []
-    |head::tail -> match head.[head.Length-1] with
-                   |',' -> [tail.Head] @ shakeRight tail 
-                   |_ -> shakeRight tail
-
-  //Comma was before the word so add comma to before other occurances
-  let leftWords = shakeRight words
-  let cleanLeft = leftWords |> List.map (fun c -> c.[0..c.Length-2]) 
-
-  //Comma was after the word so add comma to after other occurances
-  let rightWords = shakeLeft words
-  let cleanRight = rightWords |> List.map (fun c -> c.[0..c.Length-2]) 
-
-  let cleanWords = words |> List.filter (fun c -> c <> ".") 
-
-  let rec funct cleanLeft cleanRight words = 
-    match cleanLeft with 
-    | words -> 
-    |
-    match cleanRight with 
-    |//base case
-    |
-
-
-(*
-each time a word from cleanLeft||cleanRight, matches words(input): check rules, give comma.
-check left & right
-repeat. untill no new occurances in cleanLeft||cleanRight - no new clean words, when list stops updating, must be no more?
-*)
-
-//let commaWords = rightWords @ leftWords
-//let cleanWords = commaWords |> List.map (fun c -> c.[0..c.Length-2]) 
-//print out------------------------------------------------------------
-  Console.WriteLine(sprintf "words: \n%A" words)
-  //Console.WriteLine(sprintf "foundWords: \n%A" commaWords)
-  Console.WriteLine(sprintf "cleanLeft: \n%A" cleanLeft)
-  Console.WriteLine(sprintf "cleanRight: \n%A" cleanRight)
-  //Console.WriteLine(sprintf "shakeWords: \n%A" shakeWords)
-//print out------------------------------------------------------------
- 
-  
-  (*
-  match isInList elemToFindWords with
-  |false -> Some input
-  |true -> 
-          let rec sprinkle input =
-            match input with *)
-
-    
-//rules: Deals with error cases
-let rules input = 
-  match input with
-  |"" -> None //cant be empty
-  |_ ->
-    let words = listOfCharLists input
-    let firstElem = words.Head
-    let charList = listOfChars input
-    let cleanList = List.filter (fun c -> c <> ' ' && c <> '.' && c <> ',') charList
-    let lastChar = charList.[charList.Length-1]
-    
-    //Console.WriteLine(sprintf "charList: \n%A" charList)
-    match ( cleanList |> List.exists (fun c -> c = System.Char.ToUpper c)) with //cant be any upper case letters
-    |false ->    
-      match firstElem.Length >= 2 with //must be a word, most words are more than 2 chars right?
-      |true -> 
-        match lastChar with
-        |'.' -> Some (shaker input) //sentence must end with a fullstop
-        |_ -> None
-      |_ -> None
-    |true -> None
- 
+   
 
 //rules: Deals with error cases
 let rules input = 
@@ -172,13 +90,13 @@ let rules input =
       match (checkCommaSuffix charList && checkSpaceSuffix charList && checkStopSuffix charList) with
       |false -> None
       |true ->
-        Console.WriteLine(sprintf "%A" stringList)
+        //Console.WriteLine(sprintf "%A" stringList)
         match ( cleanList |> List.exists (fun c -> c = System.Char.ToUpper c)) with //cant be any upper case letters
         |false ->    
           match firstElem.Length >= 2 with //must be a word, most words are more than 2 chars right?
           |true -> 
             match lastChar with
-            |'.' -> Some ("Hello") //sentence must end with a fullstop
+            |'.' -> Some (functR (listOfStrings input)) //sentence must end with a fullstop
             |_ -> None
           |_ -> None
         |true -> None
@@ -195,5 +113,5 @@ let rivers input =
 let main argv =
     printfn "Hello World from F#!"
     
-    //commaSprinkler "please sit spot. sit spot, sit. spot here now here." //|> printfn "%A"
+    commaSprinkler "please sit spot. sit spot, sit. spot here now here." //|> printfn "%A"
     0 // return an integer exit code 
