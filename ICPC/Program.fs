@@ -107,7 +107,33 @@ let commaSprinkler input =
 
 
 let rivers input =
-    failwith "Not implemented"
+    //convert to string[] and split by whitespace
+    let inputtmp = input.ToString().Split(' ')
+    let listWds= input |> List.ofArray
+    let getEnd = input.Length // -1?
+
+
+    //check length of words conforms to requirements
+    let rec checkLength lstwds =
+        match lstwds with
+        | [] -> None
+        | head :: tail ->
+        
+
+    listWds |> List.iter (fun x -> 
+    match x.length with
+    | x when x > 80  -> None
+    | _ -> Some
+
+    )
+
+    match listWds.length >= 2 with
+    |false, _ -> None
+    |true ->
+            let index = input.ToString().indexOf(" ")
+            match input.ToString().Contains(" ") with
+            | true
+            | false
 
 [<EntryPoint>]
 let main argv =
