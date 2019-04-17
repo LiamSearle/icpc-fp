@@ -96,7 +96,7 @@ let rules input =
           match firstElem.Length >= 2 with //must be a word, most words are more than 2 chars right?
           |true -> 
             match lastChar with
-            |'.' -> Some (functR (listOfStrings input)) //sentence must end with a fullstop
+            |'.' -> Some (functR (listOfStrings input) (listOfStrings input)) //sentence must end with a fullstop
             |_ -> None
           |_ -> None
         |true -> None
@@ -106,7 +106,8 @@ let commaSprinkler input =
   rules input
 
 
-let rivers input =
+let rivers input = failwith "asd"
+(*
     //convert to string[] and split by whitespace
     let inputtmp = input.ToString().Split(' ')
     let listWds= input |> List.ofArray
@@ -134,7 +135,7 @@ let rivers input =
             match input.ToString().Contains(" ") with
             | true
             | false
-
+*)
 [<EntryPoint>]
 let main argv =
     printfn "Hello World from F#!"
