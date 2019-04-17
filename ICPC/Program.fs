@@ -50,10 +50,10 @@ let putCommas xs (wordIn : string) =
   let word = wordIn.[0..wordIn.Length-2]
   xs |> List.choose (fun elem ->
           match elem = (word + ",") with
-          |true -> Some (word + ",")
+          |true -> Some (word + ", ")
           |_->   
            match elem = word with
-           |true -> Some (word + ",")
+           |true -> Some (word + ", ")
            |false -> Some word)
 
 let listOfStrings (input : string) =  //wordList = ["One,"; "two,"; "three."]
@@ -96,7 +96,7 @@ let rules input =
           match firstElem.Length >= 2 with //must be a word, most words are more than 2 chars right?
           |true -> 
             match lastChar with
-            |'.' -> Some (functR (listOfStrings input) (listOfStrings input)) //sentence must end with a fullstop
+            |'.' -> Some (System.String.Concat(functR (listOfStrings input) (listOfStrings input))) //sentence must end with a fullstop
             |_ -> None
           |_ -> None
         |true -> None
