@@ -209,6 +209,14 @@ let rivers input =
 
     )
 
+    match listWds.length >= 2 with
+    |false, _ -> None
+    |true ->
+            let index = input.ToString().indexOf(" ")
+            match input.ToString().Contains(" ") with
+            | true
+            | false
+
 [<EntryPoint>]
 let main argv =
     printfn "Hello World from F#!"
